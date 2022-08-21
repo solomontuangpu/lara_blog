@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 class CategoryController extends Controller
 {
     /**
@@ -15,7 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view('category.index', compact('categories'));
     }
 
     /**
@@ -25,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('category.create');
     }
 
     /**
@@ -36,7 +39,13 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $category = new Category();
+        $category->title = $request->title;
+        $category->slug = Str::slug($request->title);
+        $category->user_id = Auth::id();
+        $category->save();
+        Alert::toast('Category is added Successfully!', 'success');
+        return redirect()->route('category.index')->with('status', 'Category is added Successfully!');
     }
 
     /**
@@ -58,7 +67,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('category.edit', compact('category'));
     }
 
     /**
@@ -70,7 +79,12 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $category->title = $request->title;
+        $category->slug = Str::slug($request->title);
+        $category->user_id = Auth::id();
+        $category->update();
+        Alert::toast('Category is updated Successfully!', 'success');
+        return redirect()->route('category.index')->with('status', 'Category is updated Successfully!');
     }
 
     /**
@@ -81,6 +95,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        Alert::toast('Category is deleted Successfully!', 'success');
+        return redirect()->route('category.index')->with('status', 'Category is deleted Successfully!');
     }
 }

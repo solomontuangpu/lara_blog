@@ -15,8 +15,11 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+ 
+    @stack('style')
 </head>
 <body>
+    @include('sweetalert::alert')
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -73,8 +76,29 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
+            {{-- @guest
+                 @yield('content')
+            @endguest --}}
+            @auth
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-3">
+                            @include('layouts.sidebar')
+                        </div>
+
+                        <div class="col-lg-9">
+                            @yield('content')
+                        </div>
+                    </div>
+                </div>
+
+            
+            @endauth
         </main>
+
     </div>
+
+@stack('script')
+
 </body>
 </html>

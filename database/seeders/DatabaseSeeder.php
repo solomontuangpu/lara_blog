@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,7 +20,13 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        \App\Models\User::factory(10)->create();
+        User::factory(10)->create();
+        User::factory()->create([
+            "name" => "admin",
+            "email" => "admin@example.com",
+            "password" => Hash::make("asdffdsa")
+        ]);
+
         $categories = ['Cele News', 'Sport News', "IT News", "Car News"];
         foreach($categories as $category) {
             Category::factory()->create([
@@ -28,5 +35,7 @@ class DatabaseSeeder extends Seeder
                 "user_id" => User::inRandomOrder()->first()->id
             ]);
         }
+
+        \App\Models\Post::factory(250)->create();
     }
 }
