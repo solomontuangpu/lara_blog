@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::latest('id')->get();
         return view('category.index', compact('categories'));
     }
 
@@ -56,7 +56,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return redirect()->route('category.index');
     }
 
     /**
@@ -81,7 +81,7 @@ class CategoryController extends Controller
     {
         $category->title = $request->title;
         $category->slug = Str::slug($request->title);
-        $category->user_id = Auth::id();
+     //   $category->user_id = Auth::id();
         $category->update();
         Alert::toast('Category is updated Successfully!', 'success');
         return redirect()->route('category.index')->with('status', 'Category is updated Successfully!');

@@ -76,17 +76,17 @@
         </nav>
 
         <main class="py-4">
-            {{-- @guest
+            @guest
                  @yield('content')
-            @endguest --}}
+            @endguest
             @auth
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
                             @include('layouts.sidebar')
                         </div>
 
-                        <div class="col-lg-9">
+                        <div class="col-lg-10">
                             @yield('content')
                         </div>
                     </div>

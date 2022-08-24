@@ -25,7 +25,7 @@
                         value="{{ old('title', $category->title) }}">
 
                 <button class="btn btn-primary">
-                    Edit Category
+                  Update Category
                 </button>
                 @error('title')
                 <div class="invalid-feedback">

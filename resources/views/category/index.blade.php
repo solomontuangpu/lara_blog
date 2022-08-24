@@ -25,11 +25,18 @@
                 </tr>
             </thead>
             <tbody>
+
+
                @foreach ($categories as $category)
                     <tr>
                         <td>{{ $category->id }}</td>
                         <td>{{ $category->title }}</td>
-                        <td>{{ $category->user_id }}</td>
+                        <td>
+                            @php
+                                $user = \App\Models\User::find($category->user_id);
+                                echo $user->name;
+                            @endphp
+                        </td>
                         <td>
                             <a href="{{ route('category.edit', $category->id) }}" class="btn btn-secondary">
                                 <i class="bi bi-pencil"></i>
@@ -45,10 +52,16 @@
                             </form>
                         </td>
                         <td>
-                            {{ $category->created_at->format('M d, Y') }}
-                            <br>
-                            {{ $category->created_at->format('H : m') }}
-                        </td>
+                            <span>
+                                 <i class="bi bi-calendar-date"></i>
+                                 {{ $category->created_at->format('M d, Y') }}
+                            </span>
+                             <br>
+                             <span>
+                                 <i class="bi bi-clock"></i>
+                                 {{ $category->created_at->format('H : m') }}
+                             </span>
+                         </td>
                     </tr>
                @endforeach
             </tbody>
