@@ -38,9 +38,12 @@
                             @endphp
                         </td>
                         <td>
-                            <a href="{{ route('category.edit', $category->id) }}" class="btn btn-secondary">
-                                <i class="bi bi-pencil"></i>
-                            </a>
+                            @can('update', $category)
+                                <a href="{{ route('category.edit', $category->id) }}" class="btn btn-secondary">
+                                    <i class="bi bi-pencil"></i>
+                                </a>                                
+                            @endcan
+                           @can('delete', $category)
                             <form action="{{ route('category.destroy', $category->id) }}" 
                                 method="post"
                                 class="d-inline-block">
@@ -50,6 +53,7 @@
                                     <i class="bi bi-trash3"></i>
                                 </button>
                             </form>
+                           @endcan
                         </td>
                         <td>
                             <span>

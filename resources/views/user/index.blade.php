@@ -6,7 +6,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
               <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Post List</li>
+              <li class="breadcrumb-item active" aria-current="page">User List</li>
             </ol>
         </nav>
     </div>
@@ -16,12 +16,12 @@
     <p class="mb-0">
         @if(request('keyword'))
           Search result of: <b> "{{ request('keyword') }}"</b>
-          <a class="btn btn-sm" href="{{ route('post.index') }}">
+          <a class="btn btn-sm" href="{{ route('user.index') }}">
              <i class="bi bi-trash"></i>
           </a>
         @endif
     </p>
-    <form action="{{ route('post.index') }}" method="get">
+    <form action="{{ route('user.index') }}" method="get">
         <div class="input-group">
             <input type="text" class="form-control" name="keyword" placeholder="Search">
             <button class="btn btn-secondary">
@@ -38,33 +38,33 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th class="w-25">title</th>
-                    <th>category</th>
-                    <th>owner</th>
+                    <th>name</th>
+                    <th>email</th>
+                    <th>role</th>
                     <th colspan="2">control</th>
                     <th>created_at</th>
                 </tr>
             </thead>
             <tbody>
 
-                @forelse ($posts as $post)
+                @forelse ($users as $user)
                     <tr>
-                        <td>{{ $post->id }}</td>
-                        <td>{{ $post->title }}</td>
-                        <td>{{ \App\Models\Category::find($post->category_id)->title }}</td>
-                        <td>{{ \App\Models\User::find($post->user_id)->name }} </td>
+                        <td>{{ $user->id }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->role }}</td>
                         <td colspan="2">
-                            <a href="{{ route('post.show', $post->id) }}" class="btn btn-outline-secondary">
+                            <a href="{{ route('user.show', $user->id) }}" class="btn btn-outline-secondary">
                                 <i class="bi bi-info-circle"></i>
                             </a>
-                            @can('update', $post)
-                                <a href="{{ route('post.edit', $post->id) }}" class="btn btn-outline-secondary">
+                            @can('update', $user)
+                                <a href="{{ route('user.edit', $user->id) }}" class="btn btn-outline-secondary">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                             @endcan
-                            @can('delete', $post)
-                                <form action="{{ route('post.destroy', $post->id) }}" 
-                                    method="post"
+                            @can('delete', $user)
+                                <form action="{{ route('user.destroy', $user->id) }}" 
+                                    method="user"
                                     class="d-inline-block">
                                     @csrf
                                     @method('delete')
@@ -77,12 +77,12 @@
                         <td>
                         <span>
                                 <i class="bi bi-calendar-date"></i>
-                                {{ $post->created_at->format('M d, Y') }}
+                                {{ $user->created_at->format('M d, Y') }}
                         </span>
                             <br>
                             <span>
                                 <i class="bi bi-clock"></i>
-                                {{ $post->created_at->format('H : m') }}
+                                {{ $user->created_at->format('H : m') }}
                             </span>
                         </td>
                     </tr>
@@ -93,7 +93,7 @@
             </tbody>
         </table>
 
-        {{ $posts->onEachSide(1)->links() }}
+        {{ $users->onEachSide(1)->links() }}
 
      </div>
 </div>
