@@ -48,6 +48,27 @@
                 @enderror
             </div>
             <div class="mb-3">
+                <div class="">
+                    <label for="photos">Post Photos</label>
+                    <input class="form-control @error('photos') is-invalid  @enderror @error('photos.*') is-invalid  @enderror" 
+                            type="file" 
+                            name="photos[]" 
+                            id="photos"
+                            multiple
+                            >
+                    @error('photos')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                    @error('photos.*')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+                </div>
+            </div>
+            <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
                 <textarea type="text" 
                     class="form-control 

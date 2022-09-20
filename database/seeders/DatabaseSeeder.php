@@ -9,8 +9,10 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Database\Seeders\PostSeeder;
 use Database\Seeders\UserSeeder;
+use Database\Seeders\NationSeeder;
 use Database\Seeders\CategorySeeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,11 +26,15 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         $this->call([
-
-            UserSeeder::class,
-            CategorySeeder::class,
+            // NationSeeder::class,
+            // UserSeeder::class,
+            // CategorySeeder::class,
             PostSeeder::class
 
         ]);
+        // $photos = Storage::allFiles('public');
+        // array_shift($photos);
+        // Storage::delete($photos);
+        // echo "Storage Cleaned \n";
     }
 }

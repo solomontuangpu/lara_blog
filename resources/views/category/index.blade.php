@@ -19,7 +19,10 @@
                 <tr>
                     <th>#</th>
                     <th>title</th>
-                    <th>owner</th>
+                    @notAuthor
+                     <th>owner</th>
+                    @endnotAuthor
+                    <th>Total Posts</th>
                     <th>control</th>
                     <th>created_at</th>
                 </tr>
@@ -31,11 +34,13 @@
                     <tr>
                         <td>{{ $category->id }}</td>
                         <td>{{ $category->title }}</td>
+                        @notAuthor
                         <td>
-                            @php
-                                $user = \App\Models\User::find($category->user_id);
-                                echo $user->name;
-                            @endphp
+                            {{ $category->user->name }}
+                         </td>
+                         @endnotAuthor
+                         <td>
+                            {{ $category->posts()->count() }}
                         </td>
                         <td>
                             @can('update', $category)

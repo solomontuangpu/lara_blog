@@ -1,6 +1,7 @@
 <menu class="m-0 p-0">
     <div class="list-group">
         <a href="{{ route('home') }}" class="list-group-item">Home</a>
+        <a href="{{ route('photo.index') }}" class="list-group-item">Gallery</a>
     </div>
     <div class="mt-3">
         <small class="text-black-50 font-weight-bolder">Manage Category</small>
@@ -16,11 +17,15 @@
             <a href="{{ route('post.create') }}" class="list-group-item">Create Post</a>    
         </div>
     </div>
+    @admin
+
     <div class="mt-3">
         <small class="text-black-50 font-weight-bolder">Manage User</small>
         <div class="list-group">
             <a href="{{ route('user.index') }}" class="list-group-item">User List</a>
-              
+            
         </div>
     </div>
+
+    @endadmin
 </menu>

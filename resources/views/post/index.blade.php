@@ -40,7 +40,9 @@
                     <th>#</th>
                     <th class="w-25">title</th>
                     <th>category</th>
-                    <th>owner</th>
+                  @notAuthor
+                        <th>owner</th>
+                    @endnotAuthor
                     <th colspan="2">control</th>
                     <th>created_at</th>
                 </tr>
@@ -51,8 +53,12 @@
                     <tr>
                         <td>{{ $post->id }}</td>
                         <td>{{ $post->title }}</td>
-                        <td>{{ \App\Models\Category::find($post->category_id)->title }}</td>
-                        <td>{{ \App\Models\User::find($post->user_id)->name }} </td>
+                        <td>{{$post->category->title }}</td>
+                    
+                       @notAuthor
+                             <td>{{ $post->user->name }} </td>
+                        @endnotAuthor
+
                         <td colspan="2">
                             <a href="{{ route('post.show', $post->id) }}" class="btn btn-outline-secondary">
                                 <i class="bi bi-info-circle"></i>

@@ -19,7 +19,7 @@
         <div class="">
             <span>
                 <i class="bi bi-person"></i>
-                {{ \App\Models\User::find($post->user_id)->name }}
+                {{ $post->user->name }}
             </span>
             <br>
             <span>
@@ -29,7 +29,7 @@
         </div>
         <hr class="m-2">
         <span>
-            <p class="badge bg-secondary mb-0">{{ \App\Models\Category::find($post->category_id)->title }}</p>
+            <p class="badge bg-secondary mb-0">{{ $post->category->title }}</p>
         </span>
 
        @isset($post->feature_image)
@@ -37,6 +37,10 @@
        @endisset
 
         <p>{{ $post->description }}</p>
+
+       @foreach ($post->photos as $photo)
+           <img src="{{ asset('storage/'.$photo->name) }}" height="100" alt="">
+       @endforeach
 
         <div class="">
             <a href="{{ route('post.edit', $post->id) }}" class="btn btn-outline-secondary">
