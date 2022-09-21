@@ -3,8 +3,6 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8">
-                <h1 class="text-center">Blog Posts</h1>
-
                 <div class="">
                     <form action="" method="GET">
                         <div class="input-group">
@@ -16,12 +14,23 @@
                     </form>
                 </div>
 
+                <div class="mt-3">
+
+                    @isset($category)
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <p>Filter By : {{ $category->title }}</p>
+                            <a href="{{ route('page.index') }}" class="btn  btn-outline-primary">See All</a>
+                        </div>
+                    @endisset
+                </div>
+
+
                 @forelse ($posts as $post)
                     <div class="card mt-3">
                         <div class="card-body">
                             <h3 class="mb-0">{{ $post->title }}</h3>
                             <div class="">
-                                <a href="" class="">
+                                <a href="{{ route('page.category',  $post->category->slug) }}" class="">
                                     <span class="badge bg-secondary">
                                         {{ $post->category->title }}
                                     </span>
