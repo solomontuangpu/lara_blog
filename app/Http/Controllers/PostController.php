@@ -70,17 +70,18 @@ class PostController extends Controller
        $post->save();
 
        //save photos
-
-       foreach($request->photos as $photo) {
-            //save photo local
-            $newName = uniqid()."_post.".$photo->extension();
-            $photo->storeAs('public', $newName);
-          
-            //save photo db
-            $photo = new Photo();
-            $photo->name = $newName;
-            $photo->post_id = $post->id;
-            $photo->save();
+       if(isset($request->photos)){
+            foreach($request->photos as $photo) {
+                //save photo local
+                $newName = uniqid()."_post.".$photo->extension();
+                $photo->storeAs('public', $newName);
+            
+                //save photo db
+                $photo = new Photo();
+                $photo->name = $newName;
+                $photo->post_id = $post->id;
+                $photo->save();
+        }
 
        }
        Alert::toast('Post is created Successfully!', 'success');

@@ -12,10 +12,12 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootswatch.scss';
 
+@import "venobox/dist/venobox.css";
+
 .gallery {
     columns: 3 200px;
 }
 .post-detail-img {
-    height: 500px;
+    height: 300px;
     object-fit: contain;
 }

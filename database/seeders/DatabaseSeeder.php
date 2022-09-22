@@ -26,15 +26,15 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         $this->call([
-            // NationSeeder::class,
-            // UserSeeder::class,
-            // CategorySeeder::class,
+            NationSeeder::class,
+            UserSeeder::class,
+            CategorySeeder::class,
             PostSeeder::class
 
         ]);
-        // $photos = Storage::allFiles('public');
-        // array_shift($photos);
-        // Storage::delete($photos);
-        // echo "Storage Cleaned \n";
+        $photos = Storage::allFiles('public');
+        array_shift($photos);
+        Storage::delete($photos);
+        echo "Storage Cleaned \n";
     }
 }

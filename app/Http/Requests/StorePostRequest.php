@@ -27,7 +27,7 @@ class StorePostRequest extends FormRequest
             "title" => "required|min:3|unique:posts",
             "description" => "required|min:10",
             "category" => "required|exists:categories,id", // exists is for checking database if it exist
-            "photos" => "required",
+           // "photos" => "required",
             "photos.*" => "mimes:png,jpeg|file|max:521",
             "feature_image" => "nullable|mimes:png,jpeg|file|max:521"
         ];

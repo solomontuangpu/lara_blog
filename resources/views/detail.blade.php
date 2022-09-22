@@ -8,7 +8,7 @@
                             <div class="text-center">
                                 <h3 class="mb-0">{{ $post->title }}</h3>
                                 <div class="">
-                                    <a href="" class="">
+                                    <a href="{{ route("page.category", $post->category->slug) }}" class="">
                                         <span class="badge bg-secondary">
                                             {{ $post->category->title }}
                                         </span>
@@ -18,8 +18,11 @@
                                     <div class="carousel-inner">
                                         @foreach ($post->photos as $key=>$photo)
                                             <div class="carousel-item {{ $key===0? "active": "" }}">
-                                                <img src="{{ asset('storage/'.$photo->name) }}" 
+                                                <a class="venobox" data-gall="myGallery" href="{{ asset('storage/'.$photo->name) }}">
+                                                    <img src="{{ asset('storage/'.$photo->name) }}" 
                                                 class="post-detail-img" >
+                                                </a>
+                                              
                                             </div>
                                        @endforeach
                                     </div>
@@ -36,7 +39,7 @@
                             </div>
                             
 
-                            <p class="text-black-50 my-3">{{ $post->description }}</p>
+                            <p class="text-black-50 my-3" style="white-space: pre-wrap">{{ $post->description }}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="">
                                     <p class="mb-0">
@@ -61,3 +64,4 @@
         </div>
     </div>    
 @endsection
+

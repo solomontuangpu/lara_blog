@@ -1,6 +1,10 @@
 
 import './bootstrap';
 
+import venobox from 'venobox';
+new venobox({
+    selector: ".venobox"
+});
 
 // import Swal from 'sweetalert2';
 
