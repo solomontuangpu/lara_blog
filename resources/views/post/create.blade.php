@@ -39,7 +39,7 @@
             @enderror
         </div>
 
-        <x-input name="photos" type="file" label="Post Photos" />
+        <x-input name="photos" type="file" label="Post Photos" multiple=true />
         
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>

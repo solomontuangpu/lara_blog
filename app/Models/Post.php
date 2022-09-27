@@ -9,6 +9,9 @@ class Post extends Model
 {
     use HasFactory;
 
+
+    protected $with = ["user", "category", "photos"];
+
     public function category() {
         return $this->belongsTo(Category::class);
     }
@@ -17,5 +20,12 @@ class Post extends Model
     }
     public function photos() {
         return $this->hasMany(Photo::class);
+    }
+    public function scopeSearch($query) {
+        return $query->when(request('keyword'), function($q) {
+            $keyword = request('keyword');
+            $q->where('title', 'like', "%$keyword%")
+                ->orWhere('description', 'like', "%$keyword%");
+        });
     }
 }

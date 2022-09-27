@@ -16,6 +16,13 @@
                     @endisset
                 </div>
 
+                @if(request('keyword'))
+                    Search result of: <b> "{{ request('keyword') }}"</b>
+                    <a class="btn btn-sm" href="{{ route('page.index') }}">
+                    <i class="bi bi-trash"></i>
+                    </a>
+              @endif
+
                 @forelse ($posts as $post)
                     <div class="card mt-3">
                         <div class="card-body">

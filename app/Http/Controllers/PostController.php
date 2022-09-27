@@ -21,14 +21,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::when(request('keyword'), function($q) {
-            $keyword = request('keyword');
-            $q->where('title', 'like', "%$keyword%")
-                ->orWhere('description', 'like', "%$keyword%");
-        })
+        $posts = Post::search()
             ->when(Auth::user()->isAuthor(), fn($q)=>$q->where('user_id', Auth::id()))
             ->latest('id')
-            ->with(['category','user'])
             ->paginate(10)
             ->withQueryString();
         return view('post.index', compact('posts'));
@@ -75,17 +70,27 @@ class PostController extends Controller
 
        //save photos
        if(isset($request->photos)){
-            foreach($request->photos as $photo) {
+            $savedPhoto = [];
+            foreach($request->photos as $key=>$photo) {
                 //save photo local
                 $newName = uniqid()."_post.".$photo->extension();
                 $photo->storeAs('public', $newName);
-            
+                
                 //save photo db
-                $photo = new Photo();
-                $photo->name = $newName;
-                $photo->post_id = $post->id;
-                $photo->save();
+                $savedPhoto[$key] = [
+                    "post_id" => $post->id,
+                    "name" => $newName
+                ];
         }
+
+        //for a lot of queries
+        Photo::insert($savedPhoto);
+
+        //for simple query
+        // $photo = new Photo();
+        // $photo->name = $newName;
+        // $photo->post_id = $post->id;
+        // $photo->save();
 
        }
        Alert::toast('Post is created Successfully!', 'success');
@@ -178,12 +183,16 @@ class PostController extends Controller
             Storage::delete('public/'.$post->feature_image);
         }
 
-        foreach($post->photos as $photo){
-            Storage::delete("public/".$photo->name);
-            $photo->delete();
-        }
+        // foreach($post->photos as $photo){
+        //     Storage::delete("public/".$photo->name);
+        //     $photo->delete();
+        // }
 
+        Storage::delete($post->photos->map(fn($photo)=> "public/".$photo->name)->toArray());
+        Photo::where('post_id', $post->id)->delete();
+       
         $post->delete();
+
         Alert::toast('Post is deleted Successfully!', 'success');
         return redirect()->route('post.index');
     }

@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFive();
 
-      //  DB::listen(fn($q)=>logger($q->sql));
+      DB::listen(fn($q)=>logger($q->sql));
 
         //show categories in everyblade
       //  View::share("categories", Category::latest("id")->get());
