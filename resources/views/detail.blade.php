@@ -1,11 +1,12 @@
-@extends('master')
+@extends('template.master')
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-12 col-md-8">            
+            <img src="{{ asset("storage/".$post->feature_image) }}" class="w-100" alt="">
+            <div class="col-12 col-md-8">  
                     <div class="card mt-3">
                         <div class="card-body">
-                            <div class="text-center">
+                            <div class="">
                                 <h3 class="mb-0">{{ $post->title }}</h3>
                                 <div class="">
                                     <a href="{{ route("page.category", $post->category->slug) }}" class="">
@@ -14,27 +15,31 @@
                                         </span>
                                     </a>
                                 </div>
-                                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                                    <div class="carousel-inner">
-                                        @foreach ($post->photos as $key=>$photo)
-                                            <div class="carousel-item {{ $key===0? "active": "" }}">
-                                                <a class="venobox" data-gall="myGallery" href="{{ asset('storage/'.$photo->name) }}">
-                                                    <img src="{{ asset('storage/'.$photo->name) }}" 
-                                                class="post-detail-img" >
-                                                </a>
-                                              
+                               @if ($post->photos->count())
+                                   <div class="text-center">
+                                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                                            <div class="carousel-inner">
+                                                @foreach ($post->photos as $key=>$photo)
+                                                    <div class="carousel-item {{ $key===0? "active": "" }}">
+                                                        <a class="venobox" data-gall="myGallery" href="{{ asset('storage/'.$photo->name) }}">
+                                                            <img src="{{ asset('storage/'.$photo->name) }}" 
+                                                        class="post-detail-img" >
+                                                        </a>
+                                                    
+                                                    </div>
+                                            @endforeach
                                             </div>
-                                       @endforeach
-                                    </div>
-                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                      <span class="visually-hidden">Previous</span>
-                                    </button>
-                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                      <span class="visually-hidden">Next</span>
-                                    </button>
-                                  </div>
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                            </button>
+                                        </div>
+                                   </div>
+                               @endif
 
                             </div>
                             
@@ -60,6 +65,19 @@
                         </div>
                     </div>
              
+            </div>
+            <div class="col-12 col-md-4">
+                @include("template.sidebar")
+                <div class="">
+                    <h3>Recent Posts</h3>
+                    <div class="list-group">
+                        @foreach ($recentPosts as $recentPost)
+                            <a href="{{ route('page.detail', $recentPost->slug) }}" class="list-group-item list-group-item-action {{ request()->url() === route('page.detail', $recentPost->slug) ? 'active' : '' }}">
+                                {{ $recentPost->title }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
             </div>
         </div>
     </div>    
