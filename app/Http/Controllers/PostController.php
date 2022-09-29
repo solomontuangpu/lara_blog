@@ -23,6 +23,7 @@ class PostController extends Controller
     {
         $posts = Post::search()
             ->when(Auth::user()->isAuthor(), fn($q)=>$q->where('user_id', Auth::id()))
+            ->when(request()->trash,fn($q)=>$q->onlyTrashed())
             ->latest('id')
             ->paginate(10)
             ->withQueryString();
@@ -175,25 +176,41 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
+       
+        $post = Post::withTrashed()->findOrFail($id);
         Gate::authorize('delete', $post);
 
-        if($post->feature_image) {
-            Storage::delete('public/'.$post->feature_image);
+        if(request('delete') === 'force')
+        {
+            if($post->feature_image) {
+                Storage::delete('public/'.$post->feature_image);
+            }
+    
+            // foreach($post->photos as $photo){
+            //     Storage::delete("public/".$photo->name);
+            //     $photo->delete();
+            // }
+    
+            Storage::delete($post->photos->map(fn($photo)=> "public/".$photo->name)->toArray());
+            Photo::where('post_id', $post->id)->delete();
+         
+            Post::withTrashed()->findOrFail($id)->forceDelete();
+            Alert::toast('Post is deleted Successfully!', 'success');
+        }  
+        elseif(request('delete') === 'restore')
+        {
+
+            Post::withTrashed()->findOrFail($id)->restore();
+            Alert::toast('Post is restored Successfully!', 'success');
         }
-
-        // foreach($post->photos as $photo){
-        //     Storage::delete("public/".$photo->name);
-        //     $photo->delete();
-        // }
-
-        Storage::delete($post->photos->map(fn($photo)=> "public/".$photo->name)->toArray());
-        Photo::where('post_id', $post->id)->delete();
+        else
+        {            
+            Post::withTrashed()->findOrFail($id)->delete();
+            Alert::toast('Post is moved to Trash Successfully!', 'success');
+        }
        
-        $post->delete();
-
-        Alert::toast('Post is deleted Successfully!', 'success');
         return redirect()->route('post.index');
     }
 }

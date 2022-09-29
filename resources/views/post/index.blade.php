@@ -69,7 +69,28 @@
                                 </a>
                             @endcan
                             @can('delete', $post)
-                                <form action="{{ route('post.destroy', $post->id) }}" 
+                               @trash
+                                <form action="{{ route('post.destroy', [$post->id, "delete" => "force"]) }}" 
+                                    method="post"
+                                    class="d-inline-block">
+                                    @csrf
+                                    @method('delete')
+                                    <button class="btn btn-outline-secondary">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </button>
+                                </form>
+
+                                <form action="{{ route('post.destroy', [$post->id, "delete"=>"restore"]) }}" 
+                                    method="post"
+                                    class="d-inline-block">
+                                    @csrf
+                                    @method('delete')
+                                    <button class="btn btn-outline-secondary">
+                                        <i class="bi bi-recycle"></i>
+                                    </button>
+                                </form>
+                               @else
+                                <form action="{{ route('post.destroy', [$post->id, "delete" => "soft"]) }}" 
                                     method="post"
                                     class="d-inline-block">
                                     @csrf
@@ -78,6 +99,7 @@
                                         <i class="bi bi-trash3"></i>
                                     </button>
                                 </form>
+                               @endtrash
                             @endcan
                         </td>
                         <td>
@@ -93,7 +115,11 @@
                         </td>
                     </tr>
                 @empty
-                    
+                   <tr>
+                     <td colspan="7" class=" text-center">
+                        <h3>There is no post yet!!!</h3>
+                     </td>
+                   </tr>
                 @endforelse
 
             </tbody>

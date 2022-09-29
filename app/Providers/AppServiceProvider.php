@@ -48,14 +48,14 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive("myname", function(){
             return "Solomon Tuangpu";
         });
-        Blade::if("test", function($x){
-            return $x;
-        });
         Blade::if('admin', function(){
             return Auth::user()->role === "admin";
         });
         Blade::if('notAuthor', function(){
             return Auth::user()->role !== "author";
+        });
+        Blade::if('trash', function() {
+            return request()->trash;
         });
     }
 }

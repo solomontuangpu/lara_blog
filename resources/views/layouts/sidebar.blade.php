@@ -13,8 +13,9 @@
     <div class="mt-3">
         <small class="text-black-50 font-weight-bolder">Manage Post</small>
         <div class="list-group">
+            <a href="{{ route('post.create') }}" class="list-group-item">Create Post</a>
             <a href="{{ route('post.index') }}" class="list-group-item">Post List</a>
-            <a href="{{ route('post.create') }}" class="list-group-item">Create Post</a>    
+            <a href="{{ route('post.index', ["trash" => true]) }}" class="list-group-item">Deleted Post</a>  
         </div>
     </div>
     @admin
