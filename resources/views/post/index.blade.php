@@ -103,15 +103,7 @@
                             @endcan
                         </td>
                         <td>
-                        <span>
-                                <i class="bi bi-calendar-date"></i>
-                                {{ $post->created_at->format('M d, Y') }}
-                        </span>
-                            <br>
-                            <span>
-                                <i class="bi bi-clock"></i>
-                                {{ $post->created_at->format('H : m') }}
-                            </span>
+                                {!! $post->time !!}
                         </td>
                     </tr>
                 @empty

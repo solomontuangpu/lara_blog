@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Photo;
 use Illuminate\Support\Str;
+use PhpParser\Node\Stmt\TryCatch;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StorePostRequest;
@@ -52,6 +54,10 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+        try {
+            
+        DB::beginTransaction();
+
         //save post
         $post = new Post();
         $post->title = $request->title;
@@ -66,7 +72,7 @@ class PostController extends Controller
          $newName = uniqid()."_feature_image.".$request->file('feature_image')->extension();
          $request->file('feature_image')->storeAs('public', $newName);
          $post->feature_image = $newName;
-       }
+        }
        $post->save();
 
        //save photos
@@ -87,6 +93,7 @@ class PostController extends Controller
         //for a lot of queries
         Photo::insert($savedPhoto);
 
+     
         //for simple query
         // $photo = new Photo();
         // $photo->name = $newName;
@@ -94,6 +101,12 @@ class PostController extends Controller
         // $photo->save();
 
        }
+       
+        DB::commit();
+
+        } catch (\Exception $error) {
+           DB::rollBack();
+        }
        Alert::toast('Post is created Successfully!', 'success');
        return redirect()->route('post.index');
     }
