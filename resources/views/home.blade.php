@@ -12,7 +12,10 @@
     <div class="card-body">
         <h4>
             Hello World || @myname
-          
+            <br>
+            <div>
+                {!! QrCode::size(300)->style('round')->generate(request()->url()); !!}
+            </div>
         </h4>
     </div>
 </div>

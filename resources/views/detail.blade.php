@@ -67,6 +67,12 @@
              
             </div>
             <div class="col-12 col-md-4">
+                <div class="my-3 p-3 border rounded text-center">
+                    <h3>Post Qr Code</h3>
+                    <div>
+                        {!! QrCode::size(200)->style('round')->generate(request()->url()); !!}
+                    </div>
+                </div>
                 @include("template.sidebar")
                 <div class="">
                     <h3>Recent Posts</h3>

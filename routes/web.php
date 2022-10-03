@@ -1,13 +1,17 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
+
 Use App\Http\Controllers\CategoryController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\NationController;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +40,9 @@ Route::middleware('auth')->prefix('dashboard')->group(function(){
     Route::resource('user', UserController::class);
 });
 
+// Route::get('qr-code-g', function () {
+  
+//     QrCode::size(00);
+    
+//   return view('qrCode');
+// });
